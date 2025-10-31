@@ -1,0 +1,71 @@
+# ansible-playbook -i inventory.yaml ios-interface-description.yaml --extra-vars="deviceName=Router01 interface=GigabitEthernet1.101 description=new_description"
+---
+- connection: network_cli
+  gather_facts: no
+  hosts: "{{ deviceName }}"
+
+  tasks:
+    # Phase 1: Update the interface description
+    - name: Update interface description
+      ios_config:
+        parents: interface {{ interface }}
+        lines:
+          - description "{{ description }}"
+      register: config_result
+
+    - name: Configuration status
+      debug:
+        msg: "Interface description updated"
+
+    # Phase 2: Verify the interface description is properly configured
+    - name: Verify interface description
+      block:
+        - name: Check interface exists
+          cisco.ios.ios_command:
+            commands:
+              - show interface {{ interface }}
+          register: interface_status
+          failed_when: "'not found' in interface_status.stdout[0]"
+          
+        - name: Check interface description
+          cisco.ios.ios_command:
+            commands:
+              - show interface {{ interface }} | include [Dd]escription
+          register: desc_check
+          failed_when: "description not in desc_check.stdout[0]"
+          
+        - name: Set success result
+          set_fact:
+            verification_result:
+              success: true
+              results:
+                interface:
+                  passed: true
+                  output: "{{ interface_status.stdout[0] | default('') }}"
+                description:
+                  passed: true
+                  output: "{{ desc_check.stdout[0] | default('') }}"
+          
+        - name: Show verification result
+          debug:
+            var: verification_result
+      rescue:
+        - name: Determine which check failed
+          set_fact:
+            verification_result:
+              success: false
+              results:
+                interface:
+                  passed: "{{ 'not found' not in (interface_status.stdout[0] | default('not found')) if interface_status is defined else false }}"
+                  output: "{{ interface_status.stdout[0] | default('Not executed or failed') if interface_status is defined else 'Not executed or failed' }}"
+                description:
+                  passed: "{{ description in (desc_check.stdout[0] | default('')) if desc_check is defined else false }}"
+                  output: "{{ desc_check.stdout[0] | default('Not executed or failed') if desc_check is defined else 'Not executed or failed' }}"
+          
+        - name: Show verification result
+          debug:
+            var: verification_result
+            
+        - name: Fail task
+          fail:
+            msg: "Interface description verification failed - see results for details"

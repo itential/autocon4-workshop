@@ -1,0 +1,129 @@
+# ansible-playbook -i inventory.yaml cisco-nxos-vlan-config.yaml --extra-vars="deviceName=NX-SWITCH1 vlan_id=100 vlan_name=Production vlan_mode=ce"
+# 
+# This playbook configures VLANs on Cisco NX-OS switches and always outputs results in JSON format
+---
+- connection: network_cli
+  gather_facts: no
+  hosts: "{{ deviceName }}"
+  vars:
+    ansible_network_os: nxos
+    vlan_interface: "Vlan{{ vlan_id }}"
+
+  tasks:
+    # Phase 1: Validate parameters
+    - name: Validate VLAN ID
+      assert:
+        that:
+          - vlan_id is defined
+          - vlan_id | int <= 4094
+          - vlan_id | int >= 2
+        fail_msg: "VLAN ID must be between 2 and 4094"
+      register: vlan_validation
+
+    # Phase 2: Configure VLAN on the Cisco NX-OS device
+    - name: Configure VLAN on NX-OS device
+      block:
+        - name: Create VLAN with name
+          cisco.nxos.nxos_vlans:
+            config:
+              - vlan_id: "{{ vlan_id }}"
+                name: "{{ vlan_name | default('VLAN' + vlan_id) }}"
+                mode: "{{ vlan_mode | default('ce') }}"
+                enabled: true
+                state: active
+            state: merged
+          register: vlan_result
+          
+        - name: Configure VLAN interface
+          cisco.nxos.nxos_interfaces:
+            config:
+              - name: "{{ vlan_interface }}"
+                description: "Interface for VLAN {{ vlan_id }} - {{ vlan_name | default('VLAN' + vlan_id) }}"
+                enabled: true
+            state: merged
+          register: interface_result
+          when: vlan_interface_enabled | default(false) | bool
+        
+        - name: Set configuration result
+          set_fact:
+            config_result:
+              vlan:
+                id: "{{ vlan_id }}"
+                name: "{{ vlan_name | default('VLAN' + vlan_id) }}"
+                mode: "{{ vlan_mode | default('ce') }}"
+                created: "{{ vlan_result is changed }}"
+              vlan_interface:
+                name: "{{ vlan_interface }}"
+                configured: "{{ interface_result is changed | default(false) }}"
+                enabled: "{{ vlan_interface_enabled | default(false) | bool }}"
+      
+    # Phase 3: Verify the VLAN configuration
+    - name: Verify VLAN configuration
+      block:
+        - name: Check VLAN exists
+          cisco.nxos.nxos_command:
+            commands:
+              - show vlan id {{ vlan_id }}
+          register: vlan_check
+          failed_when: "'not found in VLAN database' in vlan_check.stdout[0]"
+          
+        - name: Check VLAN name
+          cisco.nxos.nxos_command:
+            commands:
+              - show vlan id {{ vlan_id }} | json
+          register: vlan_details
+          
+        - name: Verify VLAN interface
+          cisco.nxos.nxos_command:
+            commands:
+              - show interface {{ vlan_interface }} | json
+          register: interface_check
+          when: vlan_interface_enabled | default(false) | bool
+          ignore_errors: true
+          
+        - name: Set verification result
+          set_fact:
+            verification_result:
+              success: true
+              vlan_exists: true
+              vlan_details: "{{ vlan_details.stdout[0] | from_json }}"
+              interface_status: "{{ interface_check.stdout[0] | from_json if interface_check is defined and interface_check.stdout is defined else {} }}"
+          
+      rescue:
+        - name: Set failed verification result
+          set_fact:
+            verification_result:
+              success: false
+              vlan_exists: "{{ 'not found in VLAN database' not in (vlan_check.stdout[0] | default('not found in VLAN database')) if vlan_check is defined else false }}"
+              error: "{{ vlan_check.stderr[0] | default('VLAN verification failed') if vlan_check is defined else 'VLAN verification failed' }}"
+    
+    # Phase 4: Output JSON result for automation systems
+    - name: Generate final result
+      set_fact:
+        final_result:
+          device:
+            name: "{{ inventory_hostname }}"
+            platform: "Cisco NX-OS"
+          vlan:
+            id: "{{ vlan_id }}"
+            name: "{{ vlan_name | default('VLAN' + vlan_id) }}"
+            mode: "{{ vlan_mode | default('ce') }}"
+          vlan_interface:
+            name: "{{ vlan_interface }}"
+            enabled: "{{ vlan_interface_enabled | default(false) | bool }}"
+          configuration:
+            success: "{{ vlan_result is succeeded }}"
+            changed: "{{ vlan_result is changed }}"
+          verification:
+            success: "{{ verification_result.success }}"
+            details: "{{ verification_result }}"
+    
+    - name: Display JSON result
+      debug:
+        msg: "{{ final_result | to_json(indent=2) }}"
+      
+    - name: Output result as JSON
+      local_action:
+        module: copy
+        content: "{{ final_result | to_json(indent=2) }}"
+        dest: "./output/{{ inventory_hostname }}_vlan_{{ vlan_id }}_result.json"

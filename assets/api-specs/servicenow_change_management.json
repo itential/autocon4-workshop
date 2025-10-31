@@ -1,0 +1,2570 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ServiceNow Change Management API",
+    "description": "ServiceNow Change Management API",
+    "version": "latest"
+  },
+  "externalDocs": {
+    "url": ""
+  },
+  "servers": [
+    {
+      "url": "https://example.service-now.com:443"
+    }
+  ],
+  "security": [
+    {
+      "Basic": []
+    }
+  ],
+  "paths": {
+    "/api/sn_chg_rest/change": {
+      "get": {
+        "operationId": "getChanges",
+        "description": "Retrieve all change requests",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sys_id": { "type": "string" },
+                          "number": { "type": "string" },
+                          "short_description": { "type": "string" },
+                          "description": { "type": "string" },
+                          "state": { "type": "string" },
+                          "type": { "type": "string" },
+                          "priority": { "type": "string" },
+                          "risk": { "type": "string" },
+                          "start_date": { "type": "string", "format": "date-time" },
+                          "end_date": { "type": "string", "format": "date-time" },
+                          "assignment_group": { "type": "string" },
+                          "assigned_to": { "type": "string" },
+                          "requested_by": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createChange",
+        "description": "Create a new change request",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "short_description": { "type": "string" },
+                  "description": { "type": "string" },
+                  "type": { "type": "string", "enum": ["normal", "emergency", "standard"] },
+                  "priority": { "type": "string", "enum": ["1", "2", "3", "4", "5"] },
+                  "risk": { "type": "string", "enum": ["low", "medium", "high"] },
+                  "start_date": { "type": "string", "format": "date-time" },
+                  "end_date": { "type": "string", "format": "date-time" },
+                  "assignment_group": { "type": "string" },
+                  "assigned_to": { "type": "string" },
+                  "requested_by": { "type": "string" }
+                },
+                "required": []
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "number": { "type": "string" },
+                        "short_description": { "type": "string" },
+                        "state": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/ci/{cmdb_ci_sys_id}/schedule": {
+      "get": {
+        "operationId": "getCiSchedule",
+        "description": "Get configuration item schedule",
+        "parameters": [
+          {
+            "name": "cmdb_ci_sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "change_id": { "type": "string" },
+                          "change_number": { "type": "string" },
+                          "start_date": { "type": "string", "format": "date-time" },
+                          "end_date": { "type": "string", "format": "date-time" },
+                          "state": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/emergency": {
+      "get": {
+        "operationId": "getEmergencyChanges",
+        "description": "Retrieve all emergency changes",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sys_id": { "type": "string" },
+                          "number": { "type": "string" },
+                          "short_description": { "type": "string" },
+                          "description": { "type": "string" },
+                          "state": { "type": "string" },
+                          "priority": { "type": "string" },
+                          "risk": { "type": "string" },
+                          "start_date": { "type": "string", "format": "date-time" },
+                          "end_date": { "type": "string", "format": "date-time" },
+                          "assignment_group": { "type": "string" },
+                          "assigned_to": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createEmergencyChange",
+        "description": "Create a new emergency change",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "short_description": { "type": "string" },
+                  "description": { "type": "string" },
+                  "priority": { "type": "string", "enum": ["1", "2", "3", "4", "5"] },
+                  "risk": { "type": "string", "enum": ["low", "medium", "high"] },
+                  "start_date": { "type": "string", "format": "date-time" },
+                  "end_date": { "type": "string", "format": "date-time" },
+                  "assignment_group": { "type": "string" },
+                  "assigned_to": { "type": "string" },
+                  "requested_by": { "type": "string" },
+                  "justification": { "type": "string" }
+                },
+                "required": ["short_description", "justification"]
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "number": { "type": "string" },
+                        "short_description": { "type": "string" },
+                        "state": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/emergency/{sys_id}": {
+      "get": {
+        "operationId": "getEmergencyChangeById",
+        "description": "Retrieve specific emergency change",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "number": { "type": "string" },
+                        "short_description": { "type": "string" },
+                        "description": { "type": "string" },
+                        "state": { "type": "string" },
+                        "priority": { "type": "string" },
+                        "risk": { "type": "string" },
+                        "start_date": { "type": "string", "format": "date-time" },
+                        "end_date": { "type": "string", "format": "date-time" },
+                        "assignment_group": { "type": "string" },
+                        "assigned_to": { "type": "string" },
+                        "requested_by": { "type": "string" },
+                        "justification": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteEmergencyChange",
+        "description": "Remove an emergency change",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "success": { "type": "boolean" },
+                        "message": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateEmergencyChange",
+        "description": "Modify an emergency change",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "short_description": { "type": "string" },
+                  "description": { "type": "string" },
+                  "priority": { "type": "string", "enum": ["1", "2", "3", "4", "5"] },
+                  "risk": { "type": "string", "enum": ["low", "medium", "high"] },
+                  "start_date": { "type": "string", "format": "date-time" },
+                  "end_date": { "type": "string", "format": "date-time" },
+                  "assignment_group": { "type": "string" },
+                  "assigned_to": { "type": "string" },
+                  "justification": { "type": "string" },
+                  "state": { "type": "string" }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "number": { "type": "string" },
+                        "short_description": { "type": "string" },
+                        "state": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/model": {
+      "get": {
+        "operationId": "getChangeModels",
+        "description": "Retrieve all change models",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sys_id": { "type": "string" },
+                          "name": { "type": "string" },
+                          "description": { "type": "string" },
+                          "active": { "type": "boolean" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/model/{sys_id}": {
+      "get": {
+        "operationId": "getChangeModelById",
+        "description": "Retrieve specific change model",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "name": { "type": "string" },
+                        "description": { "type": "string" },
+                        "active": { "type": "boolean" },
+                        "template": { "type": "string" },
+                        "mandatory_fields": { 
+                          "type": "array",
+                          "items": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/normal": {
+      "get": {
+        "operationId": "getNormalChanges",
+        "description": "Retrieve all normal changes",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sys_id": { "type": "string" },
+                          "number": { "type": "string" },
+                          "short_description": { "type": "string" },
+                          "description": { "type": "string" },
+                          "state": { "type": "string" },
+                          "priority": { "type": "string" },
+                          "risk": { "type": "string" },
+                          "start_date": { "type": "string", "format": "date-time" },
+                          "end_date": { "type": "string", "format": "date-time" },
+                          "assignment_group": { "type": "string" },
+                          "assigned_to": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createNormalChange",
+        "description": "Create a new normal change",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "short_description": { "type": "string" },
+                  "description": { "type": "string" },
+                  "priority": { "type": "string", "enum": ["1", "2", "3", "4", "5"] },
+                  "risk": { "type": "string", "enum": ["low", "medium", "high"] },
+                  "start_date": { "type": "string", "format": "date-time" },
+                  "end_date": { "type": "string", "format": "date-time" },
+                  "assignment_group": { "type": "string" },
+                  "assigned_to": { "type": "string" },
+                  "requested_by": { "type": "string" },
+                  "change_model": { "type": "string" }
+                },
+                "required": ["short_description"]
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "number": { "type": "string" },
+                        "short_description": { "type": "string" },
+                        "state": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/normal/{sys_id}": {
+      "get": {
+        "operationId": "getNormalChangeById",
+        "description": "Retrieve specific normal change",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "number": { "type": "string" },
+                        "short_description": { "type": "string" },
+                        "description": { "type": "string" },
+                        "state": { "type": "string" },
+                        "priority": { "type": "string" },
+                        "risk": { "type": "string" },
+                        "start_date": { "type": "string", "format": "date-time" },
+                        "end_date": { "type": "string", "format": "date-time" },
+                        "assignment_group": { "type": "string" },
+                        "assigned_to": { "type": "string" },
+                        "requested_by": { "type": "string" },
+                        "change_model": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteNormalChange",
+        "description": "Remove a normal change",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "success": { "type": "boolean" },
+                        "message": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateNormalChange",
+        "description": "Modify a normal change",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "short_description": { "type": "string" },
+                  "description": { "type": "string" },
+                  "priority": { "type": "string", "enum": ["1", "2", "3", "4", "5"] },
+                  "risk": { "type": "string", "enum": ["low", "medium", "high"] },
+                  "start_date": { "type": "string", "format": "date-time" },
+                  "end_date": { "type": "string", "format": "date-time" },
+                  "assignment_group": { "type": "string" },
+                  "assigned_to": { "type": "string" },
+                  "requested_by": { "type": "string" },
+                  "change_model": { "type": "string" },
+                  "state": { "type": "string" }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "number": { "type": "string" },
+                        "short_description": { "type": "string" },
+                        "state": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/standard": {
+      "get": {
+        "operationId": "getStandardChanges",
+        "description": "Retrieve all standard changes",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sys_id": { "type": "string" },
+                          "number": { "type": "string" },
+                          "short_description": { "type": "string" },
+                          "description": { "type": "string" },
+                          "state": { "type": "string" },
+                          "template": { "type": "string" },
+                          "start_date": { "type": "string", "format": "date-time" },
+                          "end_date": { "type": "string", "format": "date-time" },
+                          "assignment_group": { "type": "string" },
+                          "assigned_to": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/standard/template": {
+      "get": {
+        "operationId": "getStandardChangeTemplates",
+        "description": "Retrieve all standard change templates",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sys_id": { "type": "string" },
+                          "name": { "type": "string" },
+                          "description": { "type": "string" },
+                          "active": { "type": "boolean" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/standard/template/{sys_id}": {
+      "get": {
+        "operationId": "getStandardChangeTemplateById",
+        "description": "Retrieve specific change template",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "name": { "type": "string" },
+                        "description": { "type": "string" },
+                        "active": { "type": "boolean" },
+                        "mandatory_fields": { 
+                          "type": "array",
+                          "items": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/standard/{sys_id}": {
+      "get": {
+        "operationId": "getStandardChangeById",
+        "description": "Retrieve specific standard change",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "number": { "type": "string" },
+                        "short_description": { "type": "string" },
+                        "description": { "type": "string" },
+                        "state": { "type": "string" },
+                        "template": { "type": "string" },
+                        "start_date": { "type": "string", "format": "date-time" },
+                        "end_date": { "type": "string", "format": "date-time" },
+                        "assignment_group": { "type": "string" },
+                        "assigned_to": { "type": "string" },
+                        "requested_by": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteStandardChange",
+        "description": "Remove a standard change",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "success": { "type": "boolean" },
+                        "message": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateStandardChange",
+        "description": "Modify a standard change",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "short_description": { "type": "string" },
+                  "description": { "type": "string" },
+                  "start_date": { "type": "string", "format": "date-time" },
+                  "end_date": { "type": "string", "format": "date-time" },
+                  "assignment_group": { "type": "string" },
+                  "assigned_to": { "type": "string" },
+                  "requested_by": { "type": "string" },
+                  "state": { "type": "string" }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "number": { "type": "string" },
+                        "short_description": { "type": "string" },
+                        "state": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/standard/{standard_change_template_id}": {
+      "post": {
+        "operationId": "createStandardChangeFromTemplate",
+        "description": "Create change from template",
+        "parameters": [
+          {
+            "name": "standard_change_template_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "short_description": { "type": "string" },
+                  "description": { "type": "string" },
+                  "start_date": { "type": "string", "format": "date-time" },
+                  "end_date": { "type": "string", "format": "date-time" },
+                  "assignment_group": { "type": "string" },
+                  "assigned_to": { "type": "string" },
+                  "requested_by": { "type": "string" }
+                },
+                "required": []
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "number": { "type": "string" },
+                        "short_description": { "type": "string" },
+                        "state": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/worker/{sys_id}": {
+      "get": {
+        "operationId": "getChangeWorkerById",
+        "description": "Retrieve specific change worker",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "name": { "type": "string" },
+                        "email": { "type": "string" },
+                        "phone": { "type": "string" },
+                        "manager": { "type": "string" },
+                        "department": { "type": "string" },
+                        "title": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/{sys_id}": {
+      "get": {
+        "operationId": "getChangeById",
+        "description": "Retrieve specific change request",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "number": { "type": "string" },
+                        "short_description": { "type": "string" },
+                        "description": { "type": "string" },
+                        "state": { "type": "string" },
+                        "type": { "type": "string" },
+                        "priority": { "type": "string" },
+                        "risk": { "type": "string" },
+                        "start_date": { "type": "string", "format": "date-time" },
+                        "end_date": { "type": "string", "format": "date-time" },
+                        "assignment_group": { "type": "string" },
+                        "assigned_to": { "type": "string" },
+                        "requested_by": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteChange",
+        "description": "Remove a change request",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "success": { "type": "boolean" },
+                        "message": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateChange",
+        "description": "Modify a change request",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "short_description": { "type": "string" },
+                  "description": { "type": "string" },
+                  "type": { "type": "string", "enum": ["normal", "emergency", "standard"] },
+                  "priority": { "type": "string", "enum": ["1", "2", "3", "4", "5"] },
+                  "risk": { "type": "string", "enum": ["low", "medium", "high"] },
+                  "start_date": { "type": "string", "format": "date-time" },
+                  "end_date": { "type": "string", "format": "date-time" },
+                  "assignment_group": { "type": "string" },
+                  "assigned_to": { "type": "string" },
+                  "requested_by": { "type": "string" },
+                  "state": { "type": "string" }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "number": { "type": "string" },
+                        "short_description": { "type": "string" },
+                        "state": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/{sys_id}/approvals": {
+      "patch": {
+        "operationId": "updateChangeApprovals",
+        "description": "Update change approval status",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "approver": { "type": "string" },
+                  "approval_status": { "type": "string", "enum": ["approved", "rejected"] },
+                  "comments": { "type": "string" }
+                },
+                "required": ["approver", "approval_status"]
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "success": { "type": "boolean" },
+                        "message": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/{change_sys_id}/ci": {
+      "get": {
+        "operationId": "getChangeCIs",
+        "description": "Retrieve change configuration items",
+        "parameters": [
+          {
+            "name": "change_sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "ci_sys_id": { "type": "string" },
+                          "ci_name": { "type": "string" },
+                          "ci_class": { "type": "string" },
+                          "ci_status": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "addChangeCI",
+        "description": "Add configuration item to change",
+        "parameters": [
+          {
+            "name": "change_sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ci_sys_id": { "type": "string" },
+                  "ci_type": { "type": "string" },
+                  "impact": { "type": "string", "enum": ["high", "medium", "low"] }
+                },
+                "required": ["ci_sys_id"]
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "success": { "type": "boolean" },
+                        "message": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/{sys_id}/conflict": {
+      "get": {
+        "operationId": "getChangeConflicts",
+        "description": "Retrieve change conflicts",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "conflict_id": { "type": "string" },
+                          "change_id": { "type": "string" },
+                          "change_number": { "type": "string" },
+                          "conflict_status": { "type": "string" },
+                          "conflict_type": { "type": "string" },
+                          "conflict_description": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createChangeConflict",
+        "description": "Create a change conflict",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "conflicting_change_id": { "type": "string" },
+                  "conflict_status": { "type": "string" },
+                  "conflict_type": { "type": "string" },
+                  "conflict_description": { "type": "string" }
+                },
+                "required": ["conflicting_change_id", "conflict_type"]
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "conflict_id": { "type": "string" },
+                        "success": { "type": "boolean" },
+                        "message": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteChangeConflict",
+        "description": "Remove a change conflict",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "success": { "type": "boolean" },
+                        "message": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/{change_sys_id}/nextstates": {
+      "get": {
+        "operationId": "getChangeNextStates",
+        "description": "Retrieve available state transitions",
+        "parameters": [
+          {
+            "name": "change_sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "value": { "type": "string" },
+                          "display_value": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/{change_sys_id}/refresh_impacted_services": {
+      "post": {
+        "operationId": "refreshChangeImpactedServices",
+        "description": "Update impacted services list",
+        "parameters": [
+          {
+            "name": "change_sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refresh_method": { "type": "string", "enum": ["auto", "manual"] }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "success": { "type": "boolean" },
+                        "message": { "type": "string" },
+                        "services_count": { "type": "integer" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/{sys_id}/risk": {
+      "patch": {
+        "operationId": "updateChangeRisk",
+        "description": "Modify change risk assessment",
+        "parameters": [
+          {
+            "name": "sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "risk": { "type": "string", "enum": ["low", "medium", "high"] },
+                  "risk_impact": { "type": "string", "enum": ["low", "medium", "high"] },
+                  "risk_probability": { "type": "string", "enum": ["low", "medium", "high"] },
+                  "risk_notes": { "type": "string" }
+                },
+                "required": ["risk"]
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "success": { "type": "boolean" },
+                        "message": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/{change_sys_id}/schedule": {
+      "get": {
+        "operationId": "getChangeSchedule",
+        "description": "Retrieve change schedule details",
+        "parameters": [
+          {
+            "name": "change_sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "start_date": { "type": "string", "format": "date-time" },
+                        "end_date": { "type": "string", "format": "date-time" },
+                        "duration": { "type": "integer" },
+                        "maintenance_window": { "type": "string" },
+                        "conflicts": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "change_id": { "type": "string" },
+                              "change_number": { "type": "string" },
+                              "start_date": { "type": "string", "format": "date-time" },
+                              "end_date": { "type": "string", "format": "date-time" }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/{change_sys_id}/schedule/first_available": {
+      "patch": {
+        "operationId": "updateChangeScheduleFirstAvailable",
+        "description": "Set first available schedule slot",
+        "parameters": [
+          {
+            "name": "change_sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "duration": { "type": "integer" },
+                  "skip_conflicts": { "type": "boolean" },
+                  "start_after": { "type": "string", "format": "date-time" }
+                },
+                "required": ["duration"]
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "success": { "type": "boolean" },
+                        "start_date": { "type": "string", "format": "date-time" },
+                        "end_date": { "type": "string", "format": "date-time" },
+                        "message": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/{change_sys_id}/task": {
+      "get": {
+        "operationId": "getChangeTasks",
+        "description": "Retrieve change tasks",
+        "parameters": [
+          {
+            "name": "change_sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sys_id": { "type": "string" },
+                          "number": { "type": "string" },
+                          "short_description": { "type": "string" },
+                          "description": { "type": "string" },
+                          "state": { "type": "string" },
+                          "type": { "type": "string" },
+                          "planned_start_date": { "type": "string", "format": "date-time" },
+                          "planned_end_date": { "type": "string", "format": "date-time" },
+                          "assignment_group": { "type": "string" },
+                          "assigned_to": { "type": "string" },
+                          "order": { "type": "integer" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createChangeTask",
+        "description": "Create a new change task",
+        "parameters": [
+          {
+            "name": "change_sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "short_description": { "type": "string" },
+                  "description": { "type": "string" },
+                  "type": { "type": "string" },
+                  "planned_start_date": { "type": "string", "format": "date-time" },
+                  "planned_end_date": { "type": "string", "format": "date-time" },
+                  "assignment_group": { "type": "string" },
+                  "assigned_to": { "type": "string" },
+                  "order": { "type": "integer" }
+                },
+                "required": ["short_description", "type"]
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "number": { "type": "string" },
+                        "short_description": { "type": "string" },
+                        "state": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sn_chg_rest/change/{change_sys_id}/task/{task_sys_id}": {
+      "get": {
+        "operationId": "getChangeTaskById",
+        "description": "Retrieve specific change task",
+        "parameters": [
+          {
+            "name": "change_sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "task_sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "number": { "type": "string" },
+                        "short_description": { "type": "string" },
+                        "description": { "type": "string" },
+                        "state": { "type": "string" },
+                        "type": { "type": "string" },
+                        "planned_start_date": { "type": "string", "format": "date-time" },
+                        "planned_end_date": { "type": "string", "format": "date-time" },
+                        "assignment_group": { "type": "string" },
+                        "assigned_to": { "type": "string" },
+                        "order": { "type": "integer" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteChangeTask",
+        "description": "Remove a change task",
+        "parameters": [
+          {
+            "name": "change_sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "task_sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "success": { "type": "boolean" },
+                        "message": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateChangeTask",
+        "description": "Modify a change task",
+        "parameters": [
+          {
+            "name": "change_sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "task_sys_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "short_description": { "type": "string" },
+                  "description": { "type": "string" },
+                  "state": { "type": "string" },
+                  "planned_start_date": { "type": "string", "format": "date-time" },
+                  "planned_end_date": { "type": "string", "format": "date-time" },
+                  "assignment_group": { "type": "string" },
+                  "assigned_to": { "type": "string" },
+                  "order": { "type": "integer" }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sys_id": { "type": "string" },
+                        "number": { "type": "string" },
+                        "short_description": { "type": "string" },
+                        "state": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "Basic": {
+        "scheme": "basic",
+        "type": "http"
+      }
+    }
+  }
+}
