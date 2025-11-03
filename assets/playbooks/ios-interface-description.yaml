@@ -7,7 +7,7 @@
   tasks:
     # Phase 1: Update the interface description
     - name: Update interface description
-      ios_config:
+      cisco.ios.ios_config:
         parents: interface {{ interface }}
         lines:
           - description "{{ description }}"

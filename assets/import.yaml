@@ -165,8 +165,8 @@ decorators:
             - password
         type: object
 repositories:
-    - name: autocon4-content
-      url: git@gitlab.com:itential/poc-team/ac4-assets.git
+    - name: autocon4-assets
+      url: https://github.com/itential/autocon4-workshop.git
       reference: main
 services:
     - name: cisco-nxos-vlan-config
@@ -174,8 +174,8 @@ services:
       description: Ansible playbook that configures VLANs on Cisco NXOS devices
       playbooks:
         - cisco-nxos-vlan-config.yaml
-      working-directory: playbooks
-      repository: autocon4-content
+      working-directory: assets/playbooks
+      repository: autocon4-assets
       decorator: cisco-nxos-vlan-config-decorator
       runtime:
         inventory:
@@ -186,8 +186,8 @@ services:
       description: Playbook to set the description on an interface
       playbooks:
         - ios-interface-description.yaml
-      working-directory: playbooks
-      repository: autocon4-content
+      working-directory: assets/playbooks
+      repository: autocon4-assets
       decorator: ios-interface-description-decorator
       runtime:
         inventory:
@@ -197,29 +197,29 @@ services:
       type: python-script
       description: Python script that checks DNS domain records
       filename: dns-domain-checker.py
-      working-directory: scripts/dns-domain-checker
-      repository: autocon4-content
+      working-directory: assets/scripts/dns-domain-checker
+      repository: autocon4-assets
       decorator: dns-domain-checker-decorator
     - name: juniper-junos-ospf-status
       type: python-script
       description: Python script that checks OSPF status on Juniper Junos devices
       filename: juniper-junos-ospf-status.py
-      working-directory: scripts/juniper-junos-ospf-status
-      repository: autocon4-content
+      working-directory: assets/scripts/juniper-junos-ospf-status
+      repository: autocon4-assets
       decorator: juniper-junos-ospf-status-decorator
     - name: arista-eos-port-utilization
       type: python-script
       description: Python script that checks port utilization on Arista EOS devices
       filename: arista-eos-port-utilization.py
-      working-directory: scripts/arista-eos-port-utilization
-      repository: autocon4-content
+      working-directory: assets/scripts/arista-eos-port-utilization
+      repository: autocon4-assets
       decorator: arista-eos-port-utilization-decorator
     - name: cisco-ios-xe-bgp-status
       type: python-script
       description: Python script that checks BGP neighbor status on Cisco IOS-XE devices
       filename: cisco-ios-xe-bgp-status.py
-      working-directory: scripts/cisco-ios-xe-bgp-status
-      repository: autocon4-content
+      working-directory: assets/scripts/cisco-ios-xe-bgp-status
+      repository: autocon4-assets
       decorator: cisco-ios-xe-bgp-status-decorator
 registries:
     - name: default-galaxy
