@@ -12,7 +12,7 @@
 - Integrate external systems like ServiceNow and NetBox to enrich your workflows  
 - Use JSON Forms to capture structured input from users  
 - Publish workflows to the Itential Self-Service Portal for role-based execution  
-- Trigger orchestrated workflows via APIs or AI assistants like ChatGPT  
+- Trigger orchestrated workflows via APIs or AI assistants like Claude  
 
 ## 💡 FAQ
 Frequently Asked Questions!
