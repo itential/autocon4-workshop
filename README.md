@@ -75,8 +75,9 @@ This repository contains everything you need for the workshop:
 4. Get ready to automate!
 
 **Post-Workshop (Optional):**
-- Check out the [IAG installation guide](./iag/README.md) if you want to run automations from your own machine
-- Explore this repository's assets to see all the scripts and playbooks we'll be using
+- Check out the [IAG installation guide](./iag/README.md) if you want to run automations from your own machine  
+- Walk through the [Itential MCP setup guide](./mcp/README.md) if you want to run the Itential MCP server on your own machine  
+- Explore this repository's assets to see all the scripts and playbooks we'll be using  
 
 ## 🚨 Need Help?
 
