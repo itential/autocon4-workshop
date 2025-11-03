@@ -5,7 +5,7 @@
 **Level, Networking**: _Beginner_  
 **Level, Systems/Linux**: _Beginner_  
 **Level, Programming**: _Beginner_  
-**Description**: _In this hands-on workshop, you'll explore how the Itential Platform and Itential's MCP Server work together to power real-world network automation workflows — whether triggered by APIs, self-service portals, AI Agents, or Assistants like Claude. This workshop is perfect for beginners — no prior knowledge of Itential required._  
+**Description**: _In this hands-on workshop, you'll explore how the Itential Platform and Itential's MCP Server work together to power real-world network automation workflows - whether triggered by APIs, self-service portals, AI Agents, or Assistants like Claude. This workshop is perfect for beginners - no prior knowledge of Itential required._  
 **Agenda**:  
 - Create automation services from Git with the Itential Automation Gateway (IAG)  
 - Connect IAG to the Itential Platform to orchestrate those automations  
