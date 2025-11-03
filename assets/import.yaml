@@ -1,0 +1,238 @@
+decorators:
+    - name: arista-eos-port-utilization-decorator
+      schema:
+        $id: root
+        $schema: http://json-schema.org/draft-07/schema#
+        additionalProperties: false
+        properties:
+            host:
+                description: Arista EOS switch hostname or IP address
+                format: hostname
+                type: string
+            password:
+                description: eAPI password for authentication
+                format: password
+                type: string
+            port:
+                default: 443
+                description: 'eAPI port number (default: 443)'
+                maximum: 65535
+                minimum: 1
+                type: integer
+            threshold:
+                default: 70
+                description: 'Port utilization threshold percentage to highlight (default: 70)'
+                maximum: 100
+                minimum: 1
+                type: integer
+            transport:
+                default: https
+                description: 'eAPI transport protocol (default: https)'
+                enum:
+                    - http
+                    - https
+                type: string
+            username:
+                description: eAPI username for authentication
+                type: string
+        required:
+            - host
+            - username
+            - password
+        type: object
+    - name: cisco-ios-xe-bgp-status-decorator
+      schema:
+        $id: root
+        $schema: http://json-schema.org/draft-07/schema#
+        additionalProperties: false
+        properties:
+            host:
+                description: Cisco IOS-XE device hostname or IP address
+                format: hostname
+                type: string
+            neighbor:
+                description: Specific BGP neighbor IP to check (optional)
+                type: string
+            password:
+                description: SSH password for authentication
+                format: password
+                type: string
+            username:
+                description: SSH username for authentication
+                type: string
+        required:
+            - host
+            - username
+            - password
+        type: object
+    - name: cisco-nxos-vlan-config-decorator
+      schema:
+        $id: root
+        $schema: http://json-schema.org/draft-07/schema#
+        additionalProperties: false
+        properties:
+            deviceName:
+                description: Cisco NX-OS device name as defined in inventory
+                type: string
+            vlan_id:
+                description: VLAN ID (2-4094)
+                pattern: ^[2-9]|[1-9][0-9]{1,2}|[1-3][0-9]{3}|40[0-8][0-9]|409[0-4]$
+                type: string
+            vlan_interface_enabled:
+                default: false
+                description: Create and enable VLAN interface (optional)
+                type: boolean
+            vlan_mode:
+                default: ce
+                description: 'VLAN mode (optional, default: ce)'
+                enum:
+                    - ce
+                    - fabricpath
+                type: string
+            vlan_name:
+                description: Name for the VLAN (optional)
+                type: string
+        required:
+            - deviceName
+            - vlan_id
+        type: object
+    - name: dns-domain-checker-decorator
+      schema:
+        $id: root
+        $schema: http://json-schema.org/draft-07/schema#
+        additionalProperties: false
+        properties:
+            hostname:
+                description: The hostname to check for DNS record existence
+                format: hostname
+                type: string
+        required:
+            - hostname
+        type: object
+    - name: ios-interface-description-decorator
+      schema:
+        $id: root
+        $schema: http://json-schema.org/draft-07/schema#
+        additionalProperties: false
+        properties:
+            description:
+                type: string
+            deviceName:
+                type: string
+            interface:
+                description: Full interface identifier including subinterface (e.g., GigabitEthernet1.101)
+                pattern: ^(Ethernet|FastEthernet|GigabitEthernet)\d+(\.\d+)?$
+                type: string
+        required:
+            - deviceName
+            - interface
+            - description
+        type: object
+    - name: juniper-junos-ospf-status-decorator
+      schema:
+        $id: root
+        $schema: http://json-schema.org/draft-07/schema#
+        additionalProperties: false
+        properties:
+            area:
+                description: Specific OSPF area to check (optional)
+                pattern: ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$
+                type: string
+            host:
+                description: Juniper JUNOS device hostname or IP address
+                format: hostname
+                type: string
+            instance:
+                default: master
+                description: 'OSPF routing-instance name (default: master)'
+                type: string
+            password:
+                description: NETCONF password for authentication
+                format: password
+                type: string
+            port:
+                default: 830
+                description: 'NETCONF port number (default: 830)'
+                maximum: 65535
+                minimum: 1
+                type: integer
+            username:
+                description: NETCONF username for authentication
+                type: string
+        required:
+            - host
+            - username
+            - password
+        type: object
+repositories:
+    - name: autocon4-assets
+      url: https://github.com/itential/autocon4-workshop.git
+      reference: main
+services:
+    - name: cisco-nxos-vlan-config
+      type: ansible-playbook
+      description: Ansible playbook that configures VLANs on Cisco NXOS devices
+      playbooks:
+        - cisco-nxos-vlan-config.yaml
+      working-directory: assets/playbooks
+      repository: autocon4-assets
+      decorator: cisco-nxos-vlan-config-decorator
+      runtime:
+        inventory:
+            - inventory.yaml
+        config-file: ansible.cfg
+    - name: ios-interface-description
+      type: ansible-playbook
+      description: Playbook to set the description on an interface
+      playbooks:
+        - ios-interface-description.yaml
+      working-directory: assets/playbooks
+      repository: autocon4-assets
+      decorator: ios-interface-description-decorator
+      runtime:
+        inventory:
+            - inventory.yaml
+        config-file: ansible.cfg
+    - name: dns-domain-checker
+      type: python-script
+      description: Python script that checks DNS domain records
+      filename: dns-domain-checker.py
+      working-directory: assets/scripts/dns-domain-checker
+      repository: autocon4-assets
+      decorator: dns-domain-checker-decorator
+    - name: juniper-junos-ospf-status
+      type: python-script
+      description: Python script that checks OSPF status on Juniper Junos devices
+      filename: juniper-junos-ospf-status.py
+      working-directory: assets/scripts/juniper-junos-ospf-status
+      repository: autocon4-assets
+      decorator: juniper-junos-ospf-status-decorator
+    - name: arista-eos-port-utilization
+      type: python-script
+      description: Python script that checks port utilization on Arista EOS devices
+      filename: arista-eos-port-utilization.py
+      working-directory: assets/scripts/arista-eos-port-utilization
+      repository: autocon4-assets
+      decorator: arista-eos-port-utilization-decorator
+    - name: cisco-ios-xe-bgp-status
+      type: python-script
+      description: Python script that checks BGP neighbor status on Cisco IOS-XE devices
+      filename: cisco-ios-xe-bgp-status.py
+      working-directory: assets/scripts/cisco-ios-xe-bgp-status
+      repository: autocon4-assets
+      decorator: cisco-ios-xe-bgp-status-decorator
+registries:
+    - name: default-galaxy
+      type: ansible-galaxy
+      url: https://galaxy.ansible.com
+      default: true
+      description: The default public Ansible Galaxy registry entered into the database if no other default exists
+    - name: default-pypi
+      type: pypi
+      url: https://pypi.org/simple
+      default: true
+      description: The default public PyPi registry entered into the database if no other default exists
+secrets: []
+users:
+    - name: admin
+      password: $2a$10$3fcWdO5RYRiQYbS30hAmpOGErO4hbvloXJ5rv99HuS3Lp/nIQssD6
