@@ -2,7 +2,25 @@
 all:
   hosts:
     8000v-1:
-      ansible_host: 52.200.122.193
+      ansible_host: 10.0.0.10
+    8000v-2:
+      ansible_host: 10.0.0.11
+    8000v-3:
+      ansible_host: 10.0.0.12
+    8000v-4:
+      ansible_host: 10.0.0.13
+    8000v-5:
+      ansible_host: 10.0.0.14
+    8000v-6:
+      ansible_host: 10.0.0.15
+    8000v-7:
+      ansible_host: 10.0.0.16
+    8000v-8:
+      ansible_host: 10.0.0.17
+    8000v-9:
+      ansible_host: 10.0.0.18
+    8000v-10:
+      ansible_host: 10.0.0.19
   vars:
     ansible_user: itential
     ansible_password: itential
