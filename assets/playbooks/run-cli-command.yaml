@@ -1,0 +1,16 @@
+# ansible-playbook -i inventory.yaml run-cli-command.yaml --extra-vars="deviceName=8000v-1 command='show version'"
+---
+- name: Run CLI command on device
+  connection: network_cli
+  gather_facts: no
+  hosts: "{{ deviceName }}"
+
+  tasks:
+    - name: Run CLI command
+      ansible.netcommon.cli_command:
+        command: "{{ command }}"
+      register: command_output
+
+    - name: Display command output
+      debug:
+        var: command_output.stdout

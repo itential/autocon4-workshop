@@ -128,6 +128,22 @@ decorators:
             - interface
             - description
         type: object
+    - name: run-cli-command-decorator
+      schema:
+        $id: root
+        $schema: http://json-schema.org/draft-07/schema#
+        additionalProperties: false
+        properties:
+            command:
+                description: CLI command to execute on the device
+                type: string
+            deviceName:
+                description: Device name as defined in inventory
+                type: string
+        required:
+            - deviceName
+            - command
+        type: object
     - name: juniper-junos-ospf-status-decorator
       schema:
         $id: root
@@ -189,6 +205,18 @@ services:
       working-directory: assets/playbooks
       repository: autocon4-assets
       decorator: ios-interface-description-decorator
+      runtime:
+        inventory:
+            - inventory.yaml
+        config-file: ansible.cfg
+    - name: run-cli-command
+      type: ansible-playbook
+      description: Playbook to run arbitrary CLI commands on network devices
+      playbooks:
+        - run-cli-command.yaml
+      working-directory: assets/playbooks
+      repository: autocon4-assets
+      decorator: run-cli-command-decorator
       runtime:
         inventory:
             - inventory.yaml
