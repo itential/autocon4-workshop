@@ -16,13 +16,13 @@ We'll be adding additional information about connecting your local IAG via MCP (
 
 ## 📥 Download IAG Binary
 
-You'll need to download the IAG binary for your platform. The workshop proctors will provide download instructions via email the week prior to the event.
+Use the IAG binary for your platform:
 
 Choose the appropriate version for your system:
-- **macOS (Intel)**: `iagctl-5.1.0-darwin-amd64.tar.gz`
-- **macOS (Apple Silicon)**: `iagctl-5.1.0-darwin-arm64.tar.gz`
-- **Linux (x86_64)**: `iagctl-5.1.0-linux-amd64.tar.gz`
-- **Linux (ARM64)**: `iagctl-5.1.0-linux-arm64.tar.gz`
+- **macOS (Intel)**: `iagctl-v5.2.0-darwin-amd64.tar.gz`
+- **macOS (Apple Silicon)**: `iagctl-v5.2.0-darwin-arm64.tar.gz`
+- **Linux (x86_64)**: `iagctl-v5.2.0-linux-amd64.tar.gz`
+- **Linux (ARM64)**: `iagctl-v5.2.0-linux-arm64.tar.gz`
 
 > [!NOTE]
 > Windows users should use WSL (Windows Subsystem for Linux) and follow the Linux instructions.
@@ -33,7 +33,7 @@ Choose the appropriate version for your system:
 
 1. Navigate to your downloads folder and extract the contents:
 ```bash
-tar -zxvf iagctl-5.1.0-darwin-<arch>.tar.gz
+tar -zxvf iagctl-v5.2.0-darwin-<arch>.tar.gz
 ```
 
 > [!NOTE]
@@ -70,7 +70,7 @@ iagctl
 
 1. Navigate to the downloaded tar file and extract the contents:
 ```bash
-tar -zxvf iagctl-5.1.0-linux-<arch>.tar.gz
+tar -zxvf iagctl-v5.2.0-linux-<arch>.tar.gz
 ```
 
 > [!NOTE]
