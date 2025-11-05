@@ -58,6 +58,7 @@ htmlcov/
 
 # Ansible
 *.retry
+.ansible/
 
 # OS files
 Thumbs.db
