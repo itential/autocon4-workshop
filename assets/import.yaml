@@ -249,18 +249,4 @@ services:
       working-directory: assets/scripts/cisco-ios-xe-bgp-status
       repository: autocon4-assets
       decorator: cisco-ios-xe-bgp-status-decorator
-registries:
-    - name: default-galaxy
-      type: ansible-galaxy
-      url: https://galaxy.ansible.com
-      default: true
-      description: The default public Ansible Galaxy registry entered into the database if no other default exists
-    - name: default-pypi
-      type: pypi
-      url: https://pypi.org/simple
-      default: true
-      description: The default public PyPi registry entered into the database if no other default exists
 secrets: []
-users:
-    - name: admin
-      password: $2a$10$3fcWdO5RYRiQYbS30hAmpOGErO4hbvloXJ5rv99HuS3Lp/nIQssD6
